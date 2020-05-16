@@ -1,6 +1,8 @@
 Simple Level-Debug for C and C++
 ================================
 
+.. image:: https://github.com/mousefad/c-min-db/doc/demo.png
+
 Features
 --------
 
