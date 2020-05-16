@@ -47,7 +47,7 @@ void db_init(FILE* stream, const char* name, db_level_t level, int col)
         _db_level_info[i].col = NULL;
     }
     if (col) {
-        _db_level_info[db_f].col = "\033[31m";
+        _db_level_info[db_f].col = "\033[41;1m";
         _db_level_info[db_e].col = "\033[31m";
         _db_level_info[db_w].col = "\033[33m";
         _db_level_info[db_i].col = "\033[32m";
@@ -93,6 +93,11 @@ void db(int message_level, const char* fmt, ...)
             _db_level_info[message_level].col ? "\033[0m" : "",
             _db_buf
         );
+
+        // Fatal errors kill the program
+        if (message_level == db_f) {
+            exit(EXIT_FAILURE);
+        }
     }
 }
 
