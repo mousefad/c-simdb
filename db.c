@@ -1,6 +1,10 @@
+#include <string.h>
+#include <stdlib.h>
+#include <libgen.h>
+#include <stdio.h>
 #include "db.h"
 
-const char* _db_name;
+char* _db_name = NULL;
 FILE* _db_stream;
 db_level_t _db_level;
 db_level_info_t _db_level_info[db_5+1];
@@ -23,7 +27,18 @@ void db_inc_level(db_level_t first)
 void db_init(FILE* stream, const char* name, db_level_t level, int col)
 {
     _db_stream = stream;
-    _db_name = name;
+    char* name_cpy = strdup(name);
+    if (!name_cpy) {
+        perror("db_init: trying to strdup name");
+        exit(EXIT_FAILURE);
+    }
+    char* bn = basename(name_cpy);
+    if (_db_name) {
+        // prevent memory leak in the case someone calls db_init repeatedly
+        free(_db_name);
+    }
+    _db_name = strdup(bn);
+    free(name_cpy);
     db_set_level(level);
     _db_level_info[db_q].id = "QUIET";
     _db_level_info[db_q].col = NULL;

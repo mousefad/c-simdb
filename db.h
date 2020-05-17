@@ -31,13 +31,14 @@ typedef struct {
 } db_level_info_t;
 
 extern FILE* _db_stream;
-extern const char* _db_name;
+extern char* _db_name;
 extern db_level_t _db_level;
 
 // Initialize the debugging library
 //
 // \param stream is a FILE where to send debugging messages, e.g. stderr
-// \param name is the name of the program (usually argv[0])
+// \param name is the name of the program (usually argv[0]); the basename
+//        of this string will be used in the program field of the output
 // \param level is the initial debugging level, typically db_i
 // \param col should be 0 to suppress color output, else 1
 void db_init(FILE* stream, const char* name, db_level_t level, int col);
