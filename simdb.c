@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <libgen.h>
 #include <stdio.h>
-#include "db.h"
+#include "simdb.h"
 
 char* _db_name = NULL;
 FILE* _db_stream;

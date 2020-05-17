@@ -1,4 +1,4 @@
-#include "db.h"
+#include "simdb.h"
 
 int main(int argc, char** argv)
 {
