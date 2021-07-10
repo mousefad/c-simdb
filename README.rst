@@ -56,11 +56,17 @@ Make sure dependencies are installed:
 * Some C compiler
 * CMake >= 3.0
 
-Extract / clone the source and note the path, e.g. ``/home/me/mindb``, and then run:
+Extract / clone the source and note the path, e.g. ``~/src/mindb``, create a build directory somewhere and then:
 
 .. code-block:: shell
-   $ cmake /home/me/mindb
+   $ mkdir ~/mindb_build && cd ~/mindb_build
+   $ cmake ~/src/mindb
    $ make
    $ make install
        
-Build products include ``demo`` and ``simdb/libsimdb.a``.
+By default, installation will be in ``/usr/local``. To choose a different destination, use the ``-D`` option to ``cmake`` to define ``CMAKE_INSTALL_PREFIX``. For example:
+
+.. code-block:: shell
+   $ cmake -DCMAKE_INSTALL_PREFIX=/opt/mouse ~/mindb
+       
+
