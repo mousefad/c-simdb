@@ -1,0 +1,5 @@
+#pragma once
+
+#define mindb_VERSION_MAJOR @mindb_VERSION_MAJOR@
+#define mindb_VERSION_MINOR @mindb_VERSION_MINOR@
+
