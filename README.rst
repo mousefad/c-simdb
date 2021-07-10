@@ -77,3 +77,18 @@ A ``pkg-config`` configuration file is provided, and will be installed to ``$CMA
   $ pkg-config --cflags /usr/local/share/simdb.pc
   $ pkg-config --libs /usr/local/share/simdb.pc
 
+
+``db_init`` should be called before any other calls to library functions. This is typically done from ``main()``.  ``argv[0]`` may be passed as the program name - the basename will be extracted and copied to th global ``db_prog_name``.  Subsequent calls to the ``db()`` function are used to generare debugging output (or not, based on the debugging level), as follows:
+
+.. code-block:: C
+
+  #include <stdio.h>
+  #include <simdb.h>
+
+  int main(int argc, char** argv) {
+      db_init(stderr, argv[0], db_i, options);
+      db(db_i, "This message will be printed because the debugging level is set to db_i\n");
+      db(db_1, "This message will not be printed because of the debugging level\n.");
+  }
+
+See ``demo.c`` for a more complete example.
