@@ -3,6 +3,7 @@ Simple Level-Debug for C and C++
 
 .. image:: https://raw.githubusercontent.com/mousefad/c-min-db/master/doc/demo.png
 
+
 Features
 --------
 
@@ -46,3 +47,20 @@ The following level are available from least to most verbose:
 | ``db_5``   | ``DEBUG-5`` | -/cyan        |                               |
 +------------+-------------+---------------+-------------------------------+
 
+
+Build
+-----
+
+Make sure dependencies are installed:
+
+* Some C compiler
+* CMake >= 3.0
+
+Extract / clone the source and note the path, e.g. ``/home/me/mindb``, and then run:
+
+.. code-block:: shell
+   $ cmake /home/me/mindb
+   $ make
+   $ make install
+       
+Build products include ``demo`` and ``simdb/libsimdb.a``.
