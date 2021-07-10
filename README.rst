@@ -68,5 +68,5 @@ By default, installation will be in ``/usr/local``. To choose a different destin
 
 .. code-block:: shell
    $ cmake -DCMAKE_INSTALL_PREFIX=/opt/mouse ~/mindb
-       
+
 
