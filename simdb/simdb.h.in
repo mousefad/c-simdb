@@ -12,7 +12,6 @@
 #define simple_c_debugging_VERSION_MINOR @simple_c_debugging_VERSION_MINOR@
 
 #define DB_MAX_LEN 512
-#define DB_TS_FMT "%Y-%m-%d %T%z"
 #define DB_TS_LEN 26
 
 typedef enum {
@@ -28,13 +27,19 @@ typedef enum {
     db_5
 } db_level_t;
 
+typedef enum {
+    DB_UTC          = 0x0001,   ///< Use UTC for timestamp instead of localtime
+    DB_NO_COLOR     = 0x0002,   ///< do not colorize output
+    DB_USE_T_FMT    = 0x0004    ///< separate date and time with 'T' instead of ' '
+} db_init_opt_t;
+
 typedef struct {
     const char* id;
     const char* col;
 } db_level_info_t;
 
-extern FILE* _db_stream;
-extern char* _db_name;
+extern FILE* db_stream;
+extern char* db_prog_name;
 extern db_level_t _db_level;
 
 // Initialize the debugging library
@@ -43,8 +48,8 @@ extern db_level_t _db_level;
 // \param name is the name of the program (usually argv[0]); the basename
 //        of this string will be used in the program field of the output
 // \param level is the initial debugging level, typically db_i
-// \param col should be 0 to suppress color output, else 1
-void db_init(FILE* stream, const char* name, db_level_t level, int col);
+// \param options option flags. See db_init_opt_t.
+void db_init(FILE* stream, const char* name, db_level_t level, db_init_opt_t options);
 
 // Set the debugging level from now on
 void db_set_level(db_level_t level);
