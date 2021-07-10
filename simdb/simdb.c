@@ -4,11 +4,13 @@
 #include <stdio.h>
 #include "simdb.h"
 
-char* _db_name = NULL;
+char* db_prog_name = NULL;
 FILE* _db_stream;
 db_level_t _db_level;
 db_level_info_t _db_level_info[db_5+1];
 char _db_buf[DB_MAX_LEN];
+db_init_opt_t _db_options;
+const char* _db_fmt = "%Y-%m-%d %T%z";
 
 void db_set_level(db_level_t level)
 {
@@ -24,20 +26,21 @@ void db_inc_level(db_level_t first)
     }
 }
 
-void db_init(FILE* stream, const char* name, db_level_t level, int col)
+void db_init(FILE* stream, const char* name, db_level_t level, db_init_opt_t options)
 {
     _db_stream = stream;
+    _db_options = options;
     char* name_cpy = strdup(name);
     if (!name_cpy) {
         perror("db_init: trying to strdup name");
         exit(EXIT_FAILURE);
     }
     char* bn = basename(name_cpy);
-    if (_db_name) {
+    if (db_prog_name) {
         // prevent memory leak in the case someone calls db_init repeatedly
-        free(_db_name);
+        free(db_prog_name);
     }
-    _db_name = strdup(bn);
+    db_prog_name = strdup(bn);
     free(name_cpy);
     db_set_level(level);
     _db_level_info[db_q].id = "QUIET";
@@ -61,7 +64,7 @@ void db_init(FILE* stream, const char* name, db_level_t level, int col)
     for (i=0; i<=db_5; i++) {
         _db_level_info[i].col = NULL;
     }
-    if (col) {
+    if (!(options & DB_NO_COLOR)) {
         _db_level_info[db_f].col = "\033[41;1m";
         _db_level_info[db_e].col = "\033[31m";
         _db_level_info[db_w].col = "\033[33m";
@@ -71,6 +74,12 @@ void db_init(FILE* stream, const char* name, db_level_t level, int col)
         _db_level_info[db_3].col = "\033[36m";
         _db_level_info[db_4].col = "\033[36m";
         _db_level_info[db_5].col = "\033[36m";
+    }
+
+    if (options & DB_USE_T_FMT) {
+        _db_fmt = "%Y-%m-%dT%T%z";
+    } else {
+        _db_fmt = "%Y-%m-%d %T%z";
     }
 }
 
@@ -82,11 +91,11 @@ void db(int message_level, const char* fmt, ...)
         time_t t;
         struct tm *tmp;
         t = time(NULL);
-        tmp = localtime(&t);
+        tmp = (_db_options & DB_UTC) ? gmtime(&t) : localtime(&t);
         if (tmp == NULL) {
             strcpy(timestamp, "[ERR-localtime]");
         } else {
-            if (strftime(timestamp, sizeof(timestamp), DB_TS_FMT, tmp) == 0) {
+            if (strftime(timestamp, sizeof(timestamp), _db_fmt, tmp) == 0) {
                 strcpy(timestamp, "[ERR-strftime]");
             }
         }
@@ -101,7 +110,7 @@ void db(int message_level, const char* fmt, ...)
             _db_stream, 
             "%s %s[%d] %s%s%s: %s",
             timestamp,
-            _db_name,
+            db_prog_name,
             getpid(),
             _db_level_info[message_level].col ? _db_level_info[message_level].col : "",
             _db_level_info[message_level].id,

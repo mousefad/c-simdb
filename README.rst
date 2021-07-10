@@ -1,5 +1,5 @@
-Simple Level-Debug for C and C++
-================================
+Simple Level-Debug Library for C and C++
+========================================
 
 .. image:: https://raw.githubusercontent.com/mousefad/c-min-db/master/doc/demo.png
 
@@ -12,6 +12,7 @@ Features
 * Printf-style formatting
 * Nine levels (fatal, error warn, info, debugs 1 .. 5)
 * Set debugging output level at runtime
+* pkg-config script for easy use
 
 
 Debug Levels
@@ -48,25 +49,31 @@ The following level are available from least to most verbose:
 +------------+-------------+---------------+-------------------------------+
 
 
-Build
------
+Building the library
+--------------------
 
-Make sure dependencies are installed:
+Make sure dependencies are satisfied:
 
 * Some C compiler
 * CMake >= 3.0
 
-Extract / clone the source and note the path, e.g. ``~/src/mindb``, create a build directory somewhere and then:
+Extract / clone the source and note the path, e.g. ``~/src/mindb``, create a build directory somewhere and then::
 
-.. code-block:: shell
-   $ mkdir ~/mindb_build && cd ~/mindb_build
-   $ cmake ~/src/mindb
-   $ make
-   $ make install
+  $ mkdir ~/mindb_build && cd ~/mindb_build
+  $ cmake ~/src/mindb
+  $ make
+  $ make install
        
-By default, installation will be in ``/usr/local``. To choose a different destination, use the ``-D`` option to ``cmake`` to define ``CMAKE_INSTALL_PREFIX``. For example:
+By default, installation will be in ``/usr/local``. To choose a different destination, use the ``-D`` option to ``cmake`` to define ``CMAKE_INSTALL_PREFIX``. For example::
 
-.. code-block:: shell
-   $ cmake -DCMAKE_INSTALL_PREFIX=/opt/mouse ~/mindb
+  $ cmake -DCMAKE_INSTALL_PREFIX=/opt/mouse ~/mindb
 
+
+Use
+---
+
+A ``pkg-config`` configuration file is provided, and will be installed to ``$CMAKE_INSTALL_PREFIX/share/simdb.pc``. Use this with the ``pkg-config`` program to determine the correct compiler and linker options to use when building your own projects with this library. Typically this would be done from your project ``Makefile`` or similar::
+
+  $ pkg-config --cflags /usr/local/share/simdb.pc
+  $ pkg-config --libs /usr/local/share/simdb.pc
 
