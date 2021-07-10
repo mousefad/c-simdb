@@ -8,6 +8,9 @@
 #include <string.h>
 #include <stdarg.h>
 
+#define simple_c_debugging_VERSION_MAJOR @simple_c_debugging_VERSION_MAJOR@
+#define simple_c_debugging_VERSION_MINOR @simple_c_debugging_VERSION_MINOR@
+
 #define DB_MAX_LEN 512
 #define DB_TS_FMT "%Y-%m-%d %T%z"
 #define DB_TS_LEN 26

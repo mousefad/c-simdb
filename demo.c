@@ -8,6 +8,7 @@ int main(int argc, char** argv)
     // color output
     db_init(stderr, argv[0], db_3, 1);
 
+    db(db_i, "library version: %d.%d\n", simple_c_debugging_VERSION_MAJOR, simple_c_debugging_VERSION_MINOR);
     db(db_5, "this is debug level %d\n", 5); // won't print - level below db_3 
     db(db_4, "this is debug level %d\n", 4); // won't print - level below db_3
     db(db_3, "this is debug level %d\n", 3);
