@@ -1,7 +1,7 @@
 Simple Level-Debug Library for C and C++
 ========================================
 
-.. image:: https://raw.githubusercontent.com/mousefad/c-min-db/master/doc/demo.png
+.. image:: https://raw.githubusercontent.com/mousefad/c-simdb/master/doc/demo.png
 
 
 Features
@@ -57,16 +57,16 @@ Make sure dependencies are satisfied:
 * Some C compiler
 * CMake >= 3.0
 
-Extract / clone the source and note the path, e.g. ``~/src/mindb``, create a build directory somewhere and then::
+Extract / clone the source and note the path, e.g. ``~/src/simdb``, create a build directory somewhere and then::
 
-  $ mkdir ~/mindb_build && cd ~/mindb_build
-  $ cmake ~/src/mindb
+  $ mkdir ~/simdb_build && cd ~/simdb_build
+  $ cmake ~/src/simdb
   $ make
   $ make install
        
 By default, installation will be in ``/usr/local``. To choose a different destination, use the ``-D`` option to ``cmake`` to define ``CMAKE_INSTALL_PREFIX``. For example::
 
-  $ cmake -DCMAKE_INSTALL_PREFIX=/opt/mouse ~/mindb
+  $ cmake -DCMAKE_INSTALL_PREFIX=/opt/mouse ~/src/simdb
 
 
 Use
