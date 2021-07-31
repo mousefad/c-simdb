@@ -72,11 +72,12 @@ By default, installation will be in ``/usr/local``. To choose a different destin
 Use
 ---
 
-A ``pkg-config`` configuration file is provided, and will be installed to ``$CMAKE_INSTALL_PREFIX/share/simdb.pc``. Use this with the ``pkg-config`` program to determine the correct compiler and linker options to use when building your own projects with this library. Typically this would be done from your project ``Makefile`` or similar::
+A ``pkg-config`` configuration file is provided, and will be installed to ``$CMAKE_INSTALL_PREFIX/share/pkgconfig/simdb.pc``. Use this with the ``pkg-config`` program to determine the correct compiler and linker options to use when building your own projects with this library. Typically this would be done from your project ``Makefile`` or similar::
 
-  $ pkg-config --cflags /usr/local/share/simdb.pc
-  $ pkg-config --libs /usr/local/share/simdb.pc
+  $ pkg-config --cflags simdb
+  $ pkg-config --libs simdb
 
+Note: If ``simdb`` is installed in a non-stanard location, it may be necessary to add the path to the ``simdb.pc`` file in the ``PKG_CONFIG_PATH`` environment variable.
 
 ``db_init`` should be called before any other calls to library functions. This is typically done from ``main()``.  ``argv[0]`` may be passed as the program name - the basename will be extracted and copied to th global ``db_prog_name``.  Subsequent calls to the ``db()`` function are used to generare debugging output (or not, based on the debugging level), as follows:
 
@@ -86,9 +87,10 @@ A ``pkg-config`` configuration file is provided, and will be installed to ``$CMA
   #include <simdb.h>
 
   int main(int argc, char** argv) {
-      db_init(stderr, argv[0], db_i, options);
+      db_init(stderr, argv[0], db_i, 0);
       db(db_i, "This message will be printed because the debugging level is set to db_i\n");
-      db(db_1, "This message will not be printed because of the debugging level\n.");
+      db(db_1, "Not printed because db_1 is below the current level, db_i\n.");
   }
 
 See ``demo.c`` for a more complete example.
+
