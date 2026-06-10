@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.00)
+cmake_minimum_required(VERSION 3.5)
 project(simple_c_debugging VERSION 1.2)
 add_subdirectory(simdb)
 add_executable(demo demo.c)
